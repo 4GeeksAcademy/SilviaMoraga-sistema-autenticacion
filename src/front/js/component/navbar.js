@@ -8,6 +8,9 @@ export const Navbar = () => {
 				<Link to="/">
 					<span className="navbar-brand mb-0 h1"><i className="fa-solid fa-house" /></span>
 				</Link>
+				<button className="">
+					<i className="fa-solid fa-power-off fa-lg" />
+				</button>
 			</div>
 		</nav>
 	);
