@@ -18,9 +18,7 @@ const Register = () => {
     })
       .then(response => response.json())
       .then(data => {
-        //guarda el token en el localStorage 
-        localStorage.setItem("jwt-token", data["jwt-token"]);
-        console.log("Usuario registrado y token guardado");
+        console.log("Usuario registrado", data);
         navigate('/');
       })
       .catch((err) => { err })
@@ -31,7 +29,7 @@ const Register = () => {
 			backgroundImage: "url(https://img.freepik.com/foto-gratis/vista-superior-red-comunicacion-internet_23-2148779266.jpg?t=st=1724776105~exp=1724779705~hmac=41a808f793862bf40b8626691f510d62a8c90c0bddad812526a714b2543928f4&w=1380)",
 			backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat"
     }}>
-      <div className="container flex-grow-1 my-5 bg-light bg-opacity-75 py-3" style={{ borderRadius: "5px" }}>
+      <div className="container my-5 bg-light bg-opacity-75 py-3" style={{ borderRadius: "5px" }}>
         <h3 className="text-center mb-3 mt-3">Sign up</h3>
         <div className="mb-3">
           <label className="form-label">Email</label>
@@ -47,7 +45,7 @@ const Register = () => {
           }}>Save</button>
         <a href="/">Take me back</a>
       </div>
-      <Footer />
+
     </div>
   )
 }

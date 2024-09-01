@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,8 +8,18 @@ export const Home = () => {
 	const { store, actions } = useContext(Context);
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		const respuesta = async () => {
+			const res = await actions.goPrivate();
+			if (res) {
+				navigate("/private");
+			}
+		};
+		respuesta();
+	}, [actions, navigate]);
+
 	function login(event) {
-		event.preventDefault(); 
+		event.preventDefault();
 		fetch("https://upgraded-capybara-jj59g67g957hpvpx-3001.app.github.dev/login", {
 			method: "POST",
 			body: JSON.stringify({
@@ -20,15 +30,23 @@ export const Home = () => {
 				"Content-Type": "application/json"
 			}
 		})
-			.then(response => response.json())
-			.then(data => {
+			.then(response => {
+				if (!response.ok) {
+					throw Error("Usuario o contraseña incorrectos");
+				}
+				return response.json();
+			})
+			.then(async (data) => {
 				//guarda el token en el localStorage 
 				localStorage.setItem("jwt-token", data["jwt-token"]);
-				console.log("Usuario logueado");
 				//verifica el acceso del token
-				actions.goPrivate();
-				//lleva a la ruta privada si el token es correcto
-				navigate("/private");
+				const res = await actions.goPrivate();
+				if (res) {
+					navigate("/private");
+				} else {
+					console.log("No tienes acceso");
+					navigate("/")
+				}
 			})
 			.catch((err) => { err })
 	}
@@ -65,7 +83,7 @@ export const Home = () => {
 					</div>
 				</div>
 			</div>
-			<Footer />
+
 		</div>
 	);
 };

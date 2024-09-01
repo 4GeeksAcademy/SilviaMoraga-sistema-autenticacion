@@ -18,6 +18,8 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
+from datetime import timedelta
+
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -30,6 +32,7 @@ bcrypt = Bcrypt(app)
 
 #setup de JWT
 app.config["JWT_SECRET_KEY"] = os.getenv('JWT-KEY')  # Change this!
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=30)
 jwt = JWTManager(app)
 
 # database condiguration
